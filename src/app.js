@@ -1,39 +1,21 @@
 const express = require("express");
 
 const app = express();
+const { authAdmin, userAuth } = require("./middlewares/auth");
 
-// app.get("/user/:userId", (req, res) => {
-//   console.log(req.params);
-//   res.send({ firstName: "Akshay", lastName: "Saini" });
-// });
+app.use("/admin", authAdmin);
 
-// app.get("/abc", (req, res) => {
-//   console.log(req.query);
-//   res.send({ firstName: "Akshay", lastName: "Saini" });
-// });
+app.post("/user/login", (req, res) => {
+  res.send("login api called");
+});
 
-app.get(
-  "/user",
-  (req, res, next) => {
-    console.log("Handling the route user1!!");
-    // res.send("1st response");
-    next();
-  },
+app.get("/user", userAuth, (req, res) => {
+  res.send("User data sent");
+});
 
-  (req, res, next) => {
-    console.log("Handling the route user2!!");
-
-    // res.send("2nd Response");
-    next();
-  },
-
-  (req, res, next) => {
-    console.log("Handling the route user3!!");
-
-    res.send("3rd Response");
-    // next();
-  },
-);
+app.get("/admin/getAlldata", (req, res) => {
+  res.send("All data sent");
+});
 
 app.listen(3000, () => {
   console.log("Server is sucessfully running on port 3000");
